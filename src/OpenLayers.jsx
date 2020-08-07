@@ -10,15 +10,17 @@ import VectorSource from 'ol/source/Vector';
 import Point from 'ol/geom/Point';
 import {Icon, Fill, Stroke, Circle, Style} from 'ol/style';
 import Overlay from 'ol/Overlay';
-
 import { MapContainer } from "./components/MapContainer.jsx";
 import "./ui/OpenLayers.css";
+
+//window.$map = null;
+let globalMap = null;
 
 export default class OpenLayers extends Component {
     constructor(props){
         super(props);
     }
-
+    
     componentDidMount(){
         //var props = this.props;
         
@@ -28,14 +30,22 @@ export default class OpenLayers extends Component {
     }
     
     render() {
-        var props = this.props
-        setTimeout(function(){
-            createMap(props);
-        },0);
+        var props = this.props;
+
+        if(globalMap == null){
+            setTimeout(function(){
+                globalMap = createMap(props);
+            },0);
+        }else{
+            globalMap.render();
+        }
+        
 
         return <div>
             <MapContainer 
                 mapId={this.props.mapId} 
+                height={this.props.mapHeight}
+                width={this.props.mapWidth}
             />
              <div id="ol-popup" class="ol-popup">
                 <a href="#" id="ol-popup-closer" class="ol-popup-closer"></a>
@@ -187,28 +197,33 @@ function createMap(props){
         };
 
         map.addOverlay(popup);
-
+      
         map.on('click', function (evt) {
+            //console.log(evt);
+            
+            if(evt.originalEvent.originalTarget.nodeName != "CANVAS"){
+                evt.stopPropagation();
+                return;
+            }
+
             var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-            return feature;
+                return feature;
             });
 
             if (feature) {
-            var coordinates = feature.getGeometry().getCoordinates();
-            popup.setPosition(coordinates);
-            button.setAttribute("data-index", feature.get("index"));
-            content.innerHTML = "<b>" + feature.get('name') + "</b><p>" + feature.get("summary") + "</p><a href='" + feature.get('link') + "'>" + props.markerLinkText + "</a>";
-            /*element.popover({
-                placement: 'top',
-                html: true,
-                content: feature.get('name'),
-            });
-            element.popover('show');
-            } else {
-            element.popover('dispose');
-            }*/
+                var coordinates = feature.getGeometry().getCoordinates();
+                popup.setPosition(coordinates);
+                button.setAttribute("data-index", feature.get("index"));
+                var html = "<b>" + feature.get('name') + "</b><p>" + feature.get("summary") + "</p>";
+                if(feature.get('link') != ""){
+                    html += "<a href='" + feature.get('link') + "' " + (props.markerLinkNewWindow ? "target='_blank'": "") + ">" + props.markerLinkText + "</a>";
+                }
+                content.innerHTML = html;
+            }else{
+                popup.setPosition(undefined);
             }
         });
         
+        return map;
     }
 }

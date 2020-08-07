@@ -5,13 +5,21 @@
         xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Open Layers</name>
     <description>A widget to add an OpenLayers map to your application.</description>
-    <icon/>
+    <icon>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</icon>
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="Map Details">
                 <property key="mapId" type="string" required="true" defaultValue="myMap">
                     <caption>Unique ID for map</caption>
                     <description>Enter a unique ID for this map.</description>
+                </property>
+                <property key="mapHeight" type="string" required="true" defaultValue="100%">
+                    <caption>Height of map</caption>
+                    <description>Expressed as a percentage or pixels (100%/800px)</description>
+                </property>
+                <property key="mapWidth" type="string" required="true" defaultValue="100%">
+                    <caption>Width of map</caption>
+                    <description>Expressed as a percentage or pixels (100%/800px)</description>
                 </property>
                 <property key="longitude" type="decimal" required="true" defaultValue="52.589754">
                     <caption>Longitude</caption>
@@ -55,6 +63,10 @@
             <property key="markerLinkText" type="string" required="true" defaultValue="View details...">
                 <caption>Link Text</caption>
                 <description>Display text for the URL in the popup.</description>
+            </property>
+            <property key="markerLinkNewWindow" type="boolean" required="true" defaultValue="false">
+                <caption>Open link in a new window?</caption>
+                <description></description>
             </property>
             <property key="markerActionText" type="string" required="true" defaultValue="Show popup...">
                 <caption>Action Text</caption>
