@@ -22,14 +22,11 @@ export default class OpenLayers extends Component {
     }
     
     componentDidMount(){
-        //var props = this.props;
         
-        //setTimeout(function(){
-        //    createMap(props);
-        //},0);
     }
     
     render() {
+        console.log(this.props);
         var props = this.props;
 
         if(globalMap == null){
@@ -40,17 +37,21 @@ export default class OpenLayers extends Component {
             globalMap.render();
         }
         
+        let actionButton;
+        if(typeof this.props.markerAction == 'function'){
+            actionButton = <a id="ol-popup-button" href='javascript:void(0);' data-index="0" onClick={(e) => this.onActionClick(e)}>{this.props.markerActionText}</a>;
+        }else{
+            actionButton = "";
+        }
 
-        return <div>
+        return <div class='ol-outer-container' style={{width:this.props.mapWidth,height:this.props.mapHeight}}>
             <MapContainer 
                 mapId={this.props.mapId} 
-                height={this.props.mapHeight}
-                width={this.props.mapWidth}
             />
              <div id="ol-popup" class="ol-popup">
                 <a href="#" id="ol-popup-closer" class="ol-popup-closer"></a>
                 <div id="ol-popup-content"></div>
-    <a id="ol-popup-button" href='javascript:void(0);' data-index="0" onClick={(e) => this.onActionClick(e)}>{this.props.markerActionText}</a>
+                {actionButton}
             </div>
         </div>;
     }
@@ -63,7 +64,7 @@ export default class OpenLayers extends Component {
 }
 
 function createMap(props){
-    console.log('create map triggered...');
+    //console.log('create map triggered...');
     //console.log(props);
     if(props.markerData.status == "loading")
     {
@@ -71,7 +72,7 @@ function createMap(props){
     }
     else if(props.markerData.status == "available")
     {
-        console.log(props);
+        //console.log(props);
         //console.log(props.markerName(props.markerData.items[0]));
         var featureList = new Array();
         var i = 0;
@@ -95,6 +96,7 @@ function createMap(props){
                 geometry: new Point(mPoint),
                 summary: props.markerSummary(props.markerData.items[i]).displayValue,
                 link: props.markerLink(props.markerData.items[i]).displayValue,
+                linkText: (typeof props.markerLinkTextOverride == 'function' ? props.markerLinkTextOverride(props.markerData.items[i]).displayValue : ""),
                 index: i
             });
             
@@ -119,33 +121,9 @@ function createMap(props){
                     })
                 );
             }
-            /*newFeature.setStyle(
-                new Style({
-                    image: new Icon({
-                    color: '#4271AE',
-                    crossOrigin: 'anonymous',
-                    src: 'data/bigdot.png',
-                    scale: 0.2,
-                    }),
-                })
-            );*/
-
-            /*newFeature.on('click',function(evt){
-                alert('f00');
-                var content = document.getElementById('ol-popup-content');
-                var coordinate = evt.coordinate;
-            
-                content.innerHTML = '<p>You clicked on:</p><code>' + props.markerName(props.markerData.items[i]).displayValue + '</code>';
-                overlay.setPosition(coordinate);
-            });*/
-
-            
+                       
             featureList.push(newFeature);
-
-            console.log("Feature " + i + " added.");
         }
-
-        console.log(featureList);
 
         var vectorSource = new VectorSource({
             features: featureList
@@ -156,8 +134,6 @@ function createMap(props){
         });
 
         var tileLayer = new TileLayer({source: new OSM()});
-
-        console.log(props.mapId + ': load map...');
 
         var place = [props.longitude, props.latitude];
         var point = fromLonLat(place);
@@ -213,10 +189,12 @@ function createMap(props){
             if (feature) {
                 var coordinates = feature.getGeometry().getCoordinates();
                 popup.setPosition(coordinates);
-                button.setAttribute("data-index", feature.get("index"));
+                if(button != null){
+                    button.setAttribute("data-index", feature.get("index"));
+                }
                 var html = "<b>" + feature.get('name') + "</b><p>" + feature.get("summary") + "</p>";
                 if(feature.get('link') != ""){
-                    html += "<a href='" + feature.get('link') + "' " + (props.markerLinkNewWindow ? "target='_blank'": "") + ">" + props.markerLinkText + "</a>";
+                    html += "<a href='" + feature.get('link') + "' " + (props.markerLinkNewWindow ? "target='_blank'": "") + ">" + (feature.get("linkText") != "" ? feature.get("linkText"): props.markerLinkText) + "</a>";
                 }
                 content.innerHTML = html;
             }else{
@@ -224,6 +202,10 @@ function createMap(props){
             }
         });
         
+        window.addEventListener('resize', function(){
+            map.render();
+        });
+
         return map;
     }
 }

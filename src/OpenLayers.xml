@@ -13,13 +13,13 @@
                     <caption>Unique ID for map</caption>
                     <description>Enter a unique ID for this map.</description>
                 </property>
-                <property key="mapHeight" type="string" required="true" defaultValue="100%">
+                <property key="mapHeight" type="string" required="true" defaultValue="600px">
                     <caption>Height of map</caption>
-                    <description>Expressed as a percentage or pixels (100%/800px)</description>
+                    <description>Expressed as a percentage or pixels (100% or 800px). When using percentage for height check the size of your outer container is set.</description>
                 </property>
                 <property key="mapWidth" type="string" required="true" defaultValue="100%">
                     <caption>Width of map</caption>
-                    <description>Expressed as a percentage or pixels (100%/800px)</description>
+                    <description>Expressed as a percentage or pixels (100% or 800px)</description>
                 </property>
                 <property key="longitude" type="decimal" required="true" defaultValue="52.589754">
                     <caption>Longitude</caption>
@@ -102,6 +102,13 @@
                 <property key="markerLink" type="attribute" dataSource="markerData" required="false">
                     <caption>Link to</caption>
                     <description>A link to view more details.</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="markerLinkTextOverride" type="attribute" dataSource="markerData" required="false">
+                    <caption>Link text</caption>
+                    <description>Text to override the default link text, leave blank for default.</description>
                     <attributeTypes>
                         <attributeType name="String"/>
                     </attributeTypes>
