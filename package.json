@@ -1,0 +1,31 @@
+{
+  "name": "openlayers",
+  "widgetName": "OpenLayers",
+  "version": "1.0.0",
+  "description": "A widget to add an OpenLayers map to your application.",
+  "copyright": "2020 whg",
+  "author": "AJR",
+  "config": {
+    "widgetPath": "C:\\Users\\Stark\\Documents\\Mendix\\OpenLayersTest/widgets",
+    "projectPath": "C:\\Users\\Stark\\Documents\\Mendix\\OpenLayersTest/",
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": "3000"
+  },
+  "packagePath": "whg",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server --open",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "prerelease": "npm run lint",
+    "release": "pluggable-widgets-tools release:web"
+  },
+  "license": "Apache 2.0",
+  "devDependencies": {},
+  "dependencies": {
+    "@mendix/pluggable-widgets-tools": "^8.12.1",
+    "classnames": "^2.2.6",
+    "ol": "^6.4.3"
+  }
+}

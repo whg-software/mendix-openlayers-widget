@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="whg.openlayers.OpenLayers" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Open Layers</name>
+    <description>A widget to add an OpenLayers map to your application.</description>
+    <icon/>
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Map Details">
+                <property key="mapId" type="string" required="true" defaultValue="myMap">
+                    <caption>Unique ID for map</caption>
+                    <description>Enter a unique ID for this map.</description>
+                </property>
+                <property key="longitude" type="decimal" required="true" defaultValue="52.589754">
+                    <caption>Longitude</caption>
+                    <description>Enter the starting longitude for your map.</description>
+                </property>
+                <property key="latitude" type="decimal" required="true" defaultValue="-1.979244">
+                    <caption>Latitude</caption>
+                    <description>Enter the starting latitude for your map.</description>
+                </property>
+                <property key="zoomLevel" type="integer" required="true" defaultValue="15">
+                    <caption>Zoom Level</caption>
+                    <description>Set the starting zoom level, 1 being the most zoomed out. The default value is 15.</description>
+                </property>
+                <property key="fitToBounds" type="boolean" required="true" defaultValue="true">
+                    <caption>Fit view to markers</caption>
+                    <description>This will set the default view to show all available map markers.</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Marker Styles">
+        <property key="markerIcon" type="icon" required="false">
+	            <caption>Marker image</caption>
+	            <description>An image to use for the marker (not a glyphicon).</description>
+            </property>
+            <property key="markerSize" type="decimal" required="true" defaultValue="8">
+                <caption>Marker size</caption>
+                <description>Enter a size for the marker.</description>
+            </property>
+            <property key="markerLineWidth" type="decimal" required="true" defaultValue="2.0">
+                <caption>Line width</caption>
+                <description>Enter a width for the outer line.</description>
+            </property>
+            <property key="markerLineColour" type="string" required="true" defaultValue="#FF0000">
+                <caption>Line colour</caption>
+                <description>Enter a colour for the outer line.</description>
+            </property>
+            <property key="markerFillColour" type="string" required="true" defaultValue="#FFFFFF">
+                <caption>Fill colour</caption>
+                <description>Enter a colour for the fill.</description>
+            </property>
+            <property key="markerLinkText" type="string" required="true" defaultValue="View details...">
+                <caption>Link Text</caption>
+                <description>Display text for the URL in the popup.</description>
+            </property>
+            <property key="markerActionText" type="string" required="true" defaultValue="Show popup...">
+                <caption>Action Text</caption>
+                <description>Display text for the action link in the popup.</description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Map Markers">
+            <propertyGroup caption="Data">
+                <property key="markerData" type="datasource" isList="true" required="false">
+                    <caption>Data source</caption>
+                    <description>Create one marker set for each list of markers to be shown on the map.</description>
+                </property>
+                <property key="markerAction" type="action" dataSource="markerData">
+	                <caption>On marker click</caption>
+	                <description>Action to be performed when a marker is clicked</description>
+                </property> 
+            </propertyGroup>
+            <propertyGroup caption="Markers">
+                <property key="markerName" type="attribute" dataSource="markerData" required="false">
+                    <caption>Title</caption>
+                    <description>The title to be shown in the popup.</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="markerSummary" type="attribute" dataSource="markerData" required="false">
+                    <caption>Summary</caption>
+                    <description>The summary text to be shown in the popup.</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="markerLink" type="attribute" dataSource="markerData" required="false">
+                    <caption>Link to</caption>
+                    <description>A link to view more details.</description>
+                    <attributeTypes>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="markerLatitude" type="attribute" dataSource="markerData" required="false">
+                    <caption>Latitude</caption>
+                    <description/>
+                    <attributeTypes>
+                        <attributeType name="Decimal"/>
+                    </attributeTypes>
+                </property>
+                <property key="markerLongitude" type="attribute" dataSource="markerData" required="false">
+                    <caption>Longitude</caption>
+                    <description/>
+                    <attributeTypes>
+                        <attributeType name="Decimal"/>
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+    </properties>
+</widget>
