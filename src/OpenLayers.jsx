@@ -177,7 +177,9 @@ function createMap(props){
         map.on('click', function (evt) {
             //console.log(evt);
             
-            if(evt.originalEvent.originalTarget.nodeName != "CANVAS"){
+            var originalElement = evt.originalEvent.srcElement || evt.originalEvent.originalTarget;
+
+            if(originalElement.nodeName != "CANVAS"){
                 evt.stopPropagation();
                 return;
             }
