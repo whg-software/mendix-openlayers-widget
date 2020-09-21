@@ -14,6 +14,7 @@ import { MapContainer } from "./components/MapContainer.jsx";
 import "./ui/OpenLayers.css";
 
 //window.$map = null;
+let props = null;
 let globalMap = null;
 
 export default class OpenLayers extends Component {
@@ -27,15 +28,15 @@ export default class OpenLayers extends Component {
     
     render() {
         console.log(this.props);
-        var props = this.props;
+        props = this.props;
 
-        if(globalMap == null){
+        //if(globalMap == null){
             setTimeout(function(){
-                globalMap = createMap(props);
+                globalMap = createMap();
             },0);
-        }else{
-            globalMap.render();
-        }
+        //}else{
+        //    globalMap.renderSync();
+        //}
         
         let actionButton;
         if(typeof this.props.markerAction == 'function'){
@@ -63,7 +64,7 @@ export default class OpenLayers extends Component {
     //{this.createMap(this.props)}
 }
 
-function createMap(props){
+function createMap(){
     //console.log('create map triggered...');
     //console.log(props);
     if(props.markerData.status == "loading")
@@ -205,7 +206,7 @@ function createMap(props){
         });
         
         window.addEventListener('resize', function(){
-            map.render();
+            map.renderSync();
         });
 
         return map;

@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "6045b90c57433dae28cd";
+/******/ 	var hotCurrentHash = "f99bfbaaf55b12c85100";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -79009,6 +79009,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
  //window.$map = null;
 
+var props = null;
 var globalMap = null;
 
 var OpenLayers = /*#__PURE__*/function (_Component) {
@@ -79031,15 +79032,13 @@ var OpenLayers = /*#__PURE__*/function (_Component) {
       var _this = this;
 
       console.log(this.props);
-      var props = this.props;
+      props = this.props; //if(globalMap == null){
 
-      if (globalMap == null) {
-        setTimeout(function () {
-          globalMap = createMap(props);
-        }, 0);
-      } else {
-        globalMap.render();
-      }
+      setTimeout(function () {
+        globalMap = createMap();
+      }, 0); //}else{
+      //    globalMap.renderSync();
+      //}
 
       var actionButton;
 
@@ -79089,7 +79088,7 @@ var OpenLayers = /*#__PURE__*/function (_Component) {
 
 
 
-function createMap(props) {
+function createMap() {
   //console.log('create map triggered...');
   //console.log(props);
   if (props.markerData.status == "loading") {//do nothing
@@ -79186,7 +79185,9 @@ function createMap(props) {
     map.addOverlay(popup);
     map.on('click', function (evt) {
       //console.log(evt);
-      if (evt.originalEvent.originalTarget.nodeName != "CANVAS") {
+      var originalElement = evt.originalEvent.srcElement || evt.originalEvent.originalTarget;
+
+      if (originalElement.nodeName != "CANVAS") {
         evt.stopPropagation();
         return;
       }
@@ -79215,7 +79216,7 @@ function createMap(props) {
       }
     });
     window.addEventListener('resize', function () {
-      map.render();
+      map.renderSync();
     });
     return map;
   }
