@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "f99bfbaaf55b12c85100";
+/******/ 	var hotCurrentHash = "36ba1632a960eb5d9862";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -79035,7 +79035,11 @@ var OpenLayers = /*#__PURE__*/function (_Component) {
       props = this.props; //if(globalMap == null){
 
       setTimeout(function () {
-        globalMap = createMap();
+        var maps = document.getElementsByClassName('ol-viewport');
+
+        if (maps == null || maps.length == 0) {
+          globalMap = createMap();
+        }
       }, 0); //}else{
       //    globalMap.renderSync();
       //}
@@ -79055,7 +79059,9 @@ var OpenLayers = /*#__PURE__*/function (_Component) {
         actionButton = "";
       }
 
+      var containerId = 'ol-outer-container-' + props.mapId;
       return /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+        id: containerId,
         "class": "ol-outer-container",
         style: {
           width: this.props.mapWidth,
@@ -79148,6 +79154,11 @@ function createMap() {
       source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_4__["default"]()
     });
     var place = [props.longitude, props.latitude];
+
+    if (props.markerData.items.length > 0) {
+      place = [parseFloat(props.markerLongitude(props.markerData.items[0]).displayValue), parseFloat(props.markerLatitude(props.markerData.items[0]).displayValue)];
+    }
+
     var point = Object(ol_proj__WEBPACK_IMPORTED_MODULE_5__["fromLonLat"])(place);
     var map = new ol__WEBPACK_IMPORTED_MODULE_2__["Map"]({
       target: props.mapId,
@@ -79162,6 +79173,8 @@ function createMap() {
     if (props.fitToBounds) {
       var layerExtent = vectorLayer.getSource().getExtent();
       map.getView().fit(layerExtent);
+      map.getView().setZoom(map.getView().getZoom() - 1);
+    } else {
       map.getView().setZoom(map.getView().getZoom() - 1);
     }
 
@@ -79183,38 +79196,42 @@ function createMap() {
     };
 
     map.addOverlay(popup);
-    map.on('click', function (evt) {
-      //console.log(evt);
-      var originalElement = evt.originalEvent.srcElement || evt.originalEvent.originalTarget;
 
-      if (originalElement.nodeName != "CANVAS") {
-        evt.stopPropagation();
-        return;
-      }
+    if (props.showPopups) {
+      map.on('click', function (evt) {
+        //console.log(evt);
+        var originalElement = evt.originalEvent.srcElement || evt.originalEvent.originalTarget;
 
-      var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-        return feature;
+        if (originalElement.nodeName != "CANVAS") {
+          evt.stopPropagation();
+          return;
+        }
+
+        var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+          return feature;
+        });
+
+        if (feature) {
+          var coordinates = feature.getGeometry().getCoordinates();
+          popup.setPosition(coordinates);
+
+          if (button != null) {
+            button.setAttribute("data-index", feature.get("index"));
+          }
+
+          var html = "<b>" + feature.get('name') + "</b><p>" + feature.get("summary") + "</p>";
+
+          if (feature.get('link') != "") {
+            html += "<a href='" + feature.get('link') + "' " + (props.markerLinkNewWindow ? "target='_blank'" : "") + ">" + (feature.get("linkText") != "" ? feature.get("linkText") : props.markerLinkText) + "</a>";
+          }
+
+          content.innerHTML = html;
+        } else {
+          popup.setPosition(undefined);
+        }
       });
+    }
 
-      if (feature) {
-        var coordinates = feature.getGeometry().getCoordinates();
-        popup.setPosition(coordinates);
-
-        if (button != null) {
-          button.setAttribute("data-index", feature.get("index"));
-        }
-
-        var html = "<b>" + feature.get('name') + "</b><p>" + feature.get("summary") + "</p>";
-
-        if (feature.get('link') != "") {
-          html += "<a href='" + feature.get('link') + "' " + (props.markerLinkNewWindow ? "target='_blank'" : "") + ">" + (feature.get("linkText") != "" ? feature.get("linkText") : props.markerLinkText) + "</a>";
-        }
-
-        content.innerHTML = html;
-      } else {
-        popup.setPosition(undefined);
-      }
-    });
     window.addEventListener('resize', function () {
       map.renderSync();
     });

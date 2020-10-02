@@ -30,9 +30,14 @@ export default class OpenLayers extends Component {
         console.log(this.props);
         props = this.props;
 
+      
+
         //if(globalMap == null){
             setTimeout(function(){
-                globalMap = createMap();
+                var maps = document.getElementsByClassName('ol-viewport');
+                if(maps == null || maps.length == 0){
+                    globalMap = createMap();
+                }
             },0);
         //}else{
         //    globalMap.renderSync();
@@ -45,7 +50,8 @@ export default class OpenLayers extends Component {
             actionButton = "";
         }
 
-        return <div class='ol-outer-container' style={{width:this.props.mapWidth,height:this.props.mapHeight}}>
+        var containerId = 'ol-outer-container-' + props.mapId;
+        return <div id={containerId} class='ol-outer-container' style={{width:this.props.mapWidth,height:this.props.mapHeight}}>
             <MapContainer 
                 mapId={this.props.mapId} 
             />
@@ -71,7 +77,7 @@ function createMap(){
     {
         //do nothing
     }
-    else if(props.markerData.status == "available")
+    else if(props.markerData.status == "available" )
     {
         //console.log(props);
         //console.log(props.markerName(props.markerData.items[0]));
@@ -85,46 +91,48 @@ function createMap(){
             color: props.markerLineColour,
             width: props.markerLineWidth
         }); 
-
-        for(i = 0; i < props.markerData.totalCount; i++){
+    
+        
+            for(i = 0; i < props.markerData.totalCount; i++){
+                
+                var mPlace = [parseFloat(props.markerLongitude(props.markerData.items[i]).displayValue), parseFloat(props.markerLatitude(props.markerData.items[i]).displayValue)];
             
-            var mPlace = [parseFloat(props.markerLongitude(props.markerData.items[i]).displayValue), parseFloat(props.markerLatitude(props.markerData.items[i]).displayValue)];
-           
-            var mPoint = fromLonLat(mPlace);
-            
-            var newFeature = new Feature({
-                name: props.markerName(props.markerData.items[i]).displayValue,
-                geometry: new Point(mPoint),
-                summary: props.markerSummary(props.markerData.items[i]).displayValue,
-                link: props.markerLink(props.markerData.items[i]).displayValue,
-                linkText: (typeof props.markerLinkTextOverride == 'function' ? props.markerLinkTextOverride(props.markerData.items[i]).displayValue : ""),
-                index: i
-            });
-            
-            if(props.markerIcon != null){
-                newFeature.setStyle(
-                    new Style({
-                        image: new Icon({
-                          src: props.markerIcon.value.iconUrl
+                var mPoint = fromLonLat(mPlace);
+                
+                var newFeature = new Feature({
+                    name: props.markerName(props.markerData.items[i]).displayValue,
+                    geometry: new Point(mPoint),
+                    summary: props.markerSummary(props.markerData.items[i]).displayValue,
+                    link: props.markerLink(props.markerData.items[i]).displayValue,
+                    linkText: (typeof props.markerLinkTextOverride == 'function' ? props.markerLinkTextOverride(props.markerData.items[i]).displayValue : ""),
+                    index: i
+                });
+                
+                if(props.markerIcon != null){
+                    newFeature.setStyle(
+                        new Style({
+                            image: new Icon({
+                            src: props.markerIcon.value.iconUrl
+                            })
                         })
-                    })
-                );
-            }else{
-                newFeature.setStyle(
-                    new Style({
-                        image: new Circle({
-                        fill: fill,
-                        stroke: stroke,
-                        radius: props.markerSize
-                        }),
-                        fill: fill,
-                        stroke: stroke
-                    })
-                );
+                    );
+                }else{
+                    newFeature.setStyle(
+                        new Style({
+                            image: new Circle({
+                            fill: fill,
+                            stroke: stroke,
+                            radius: props.markerSize
+                            }),
+                            fill: fill,
+                            stroke: stroke
+                        })
+                    );
+                }
+                        
+                featureList.push(newFeature);
             }
-                       
-            featureList.push(newFeature);
-        }
+        
 
         var vectorSource = new VectorSource({
             features: featureList
@@ -137,6 +145,9 @@ function createMap(){
         var tileLayer = new TileLayer({source: new OSM()});
 
         var place = [props.longitude, props.latitude];
+        if(props.markerData.items.length > 0){
+            place = [parseFloat(props.markerLongitude(props.markerData.items[0]).displayValue), parseFloat(props.markerLatitude(props.markerData.items[0]).displayValue)];
+        }
         var point = fromLonLat(place);
 
         var map = new olMap({
@@ -152,6 +163,8 @@ function createMap(){
         if(props.fitToBounds){
             var layerExtent = vectorLayer.getSource().getExtent();
             map.getView().fit(layerExtent);
+            map.getView().setZoom(map.getView().getZoom() - 1);
+        }else{
             map.getView().setZoom(map.getView().getZoom() - 1);
         }
 
@@ -175,6 +188,7 @@ function createMap(){
 
         map.addOverlay(popup);
       
+        if(props.showPopups){
         map.on('click', function (evt) {
             //console.log(evt);
             
@@ -204,6 +218,7 @@ function createMap(){
                 popup.setPosition(undefined);
             }
         });
+    }
         
         window.addEventListener('resize', function(){
             map.renderSync();

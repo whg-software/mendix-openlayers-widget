@@ -37,10 +37,14 @@
                     <caption>Fit view to markers</caption>
                     <description>This will set the default view to show all available map markers.</description>
                 </property>
+                <property key="showPopup" type="boolean" required="true" defaultValue="true">
+                    <caption>Show popups on the map</caption>
+                    <description>This will either show or hide the popups.</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Marker Styles">
-        <property key="markerIcon" type="icon" required="false">
+            <property key="markerIcon" type="icon" required="false">
 	            <caption>Marker image</caption>
 	            <description>An image to use for the marker (not a glyphicon).</description>
             </property>
