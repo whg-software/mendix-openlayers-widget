@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "36ba1632a960eb5d9862";
+/******/ 	var hotCurrentHash = "0dfd14a48a3f6db9da36";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -79196,10 +79196,11 @@ function createMap() {
     };
 
     map.addOverlay(popup);
+    console.log(props.showPopup);
 
-    if (props.showPopups) {
+    if (props.showPopup) {
       map.on('click', function (evt) {
-        //console.log(evt);
+        console.log(evt);
         var originalElement = evt.originalEvent.srcElement || evt.originalEvent.originalTarget;
 
         if (originalElement.nodeName != "CANVAS") {

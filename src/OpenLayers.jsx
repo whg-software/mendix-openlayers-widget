@@ -188,9 +188,10 @@ function createMap(){
 
         map.addOverlay(popup);
       
-        if(props.showPopups){
+        console.log(props.showPopup);
+        if(props.showPopup){
         map.on('click', function (evt) {
-            //console.log(evt);
+            console.log(evt);
             
             var originalElement = evt.originalEvent.srcElement || evt.originalEvent.originalTarget;
 
