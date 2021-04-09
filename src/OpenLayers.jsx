@@ -95,7 +95,7 @@ function createMap(){
         }); 
     
         
-            for(i = 0; i < props.markerData.totalCount; i++){
+            for(i = 0; i < props.markerData.items.length; i++){
                 
                 var mPlace = [parseFloat(props.markerLongitude(props.markerData.items[i]).displayValue), parseFloat(props.markerLatitude(props.markerData.items[i]).displayValue)];
             

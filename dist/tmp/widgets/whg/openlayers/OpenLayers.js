@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "3fe971e6c817c29ae8da";
+/******/ 	var hotCurrentHash = "85a916f2554f23ca2a65";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -79111,7 +79111,7 @@ function createMap() {
       width: props.markerLineWidth
     });
 
-    for (i = 0; i < props.markerData.totalCount; i++) {
+    for (i = 0; i < props.markerData.items.length; i++) {
       var mPlace = [parseFloat(props.markerLongitude(props.markerData.items[i]).displayValue), parseFloat(props.markerLatitude(props.markerData.items[i]).displayValue)];
       var mPoint = Object(ol_proj__WEBPACK_IMPORTED_MODULE_5__["fromLonLat"])(mPlace);
       var newFeature = new ol_Feature__WEBPACK_IMPORTED_MODULE_6__["default"]({
