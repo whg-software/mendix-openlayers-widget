@@ -33,12 +33,14 @@ export default class OpenLayers extends Component {
       
 
         //if(globalMap == null){
-            setTimeout(function(){
+         
+          setTimeout(function(){
                 var maps = document.getElementsByClassName('ol-viewport');
                 if(maps == null || maps.length == 0){
                     globalMap = createMap();
                 }
             },0);
+        
         //}else{
         //    globalMap.renderSync();
         //}
@@ -207,6 +209,8 @@ function createMap(){
             if (feature) {
                 var coordinates = feature.getGeometry().getCoordinates();
                 popup.setPosition(coordinates);
+                element.style.display = "block";
+                
                 if(button != null){
                     button.setAttribute("data-index", feature.get("index"));
                 }

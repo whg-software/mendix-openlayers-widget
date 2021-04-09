@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "0dfd14a48a3f6db9da36";
+/******/ 	var hotCurrentHash = "3fe971e6c817c29ae8da";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -16114,7 +16114,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\n/*\nPlace your custom CSS here\n*/\n.ol-map-container {\n  display: block;\n  width: 100%;\n  height: 100%;\n}\n\n.ol-popup {\n  position: absolute;\n  background-color: white;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);\n  padding: 15px;\n  border-radius: 10px;\n  border: 1px solid #cccccc;\n  bottom: 12px;\n  left: -50px;\n  min-width: 280px;\n  z-index: 10;\n}\n\n.ol-popup:after, .ol-popup:before {\n  top: 100%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n}\n\n.ol-popup:after {\n  border-top-color: white;\n  border-width: 10px;\n  left: 48px;\n  margin-left: -10px;\n}\n\n.ol-popup:before {\n  border-top-color: #cccccc;\n  border-width: 11px;\n  left: 48px;\n  margin-left: -11px;\n}\n\n.ol-popup-closer {\n  text-decoration: none;\n  position: absolute;\n  top: 2px;\n  right: 8px;\n}\n\n.ol-popup-closer:after {\n  content: \"✖\";\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/*\nPlace your custom CSS here\n*/\n.ol-map-container {\n  display: block;\n  width: 100%;\n  height: 100%;\n}\n\n.ol-overlay-container.ol-selectable {\n  transform: translate(-50%, -100%) translate(-500px, -500px);\n}\n\n.ol-popup {\n  display: none;\n  position: absolute;\n  background-color: white;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);\n  padding: 15px;\n  border-radius: 10px;\n  border: 1px solid #cccccc;\n  bottom: 12px;\n  left: -50px;\n  min-width: 280px;\n  z-index: 10;\n}\n\n.ol-popup:after, .ol-popup:before {\n  top: 100%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n}\n\n.ol-popup:after {\n  border-top-color: white;\n  border-width: 10px;\n  left: 48px;\n  margin-left: -10px;\n}\n\n.ol-popup:before {\n  border-top-color: #cccccc;\n  border-width: 11px;\n  left: 48px;\n  margin-left: -11px;\n}\n\n.ol-popup-closer {\n  text-decoration: none;\n  position: absolute;\n  top: 2px;\n  right: 8px;\n}\n\n.ol-popup-closer:after {\n  content: \"✖\";\n}", ""]);
 // Exports
 module.exports = exports;
 
@@ -79215,6 +79215,7 @@ function createMap() {
         if (feature) {
           var coordinates = feature.getGeometry().getCoordinates();
           popup.setPosition(coordinates);
+          element.style.display = "block";
 
           if (button != null) {
             button.setAttribute("data-index", feature.get("index"));
